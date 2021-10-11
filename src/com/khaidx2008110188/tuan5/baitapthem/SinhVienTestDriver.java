@@ -3,11 +3,12 @@ package tuan5.baitapthem;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
 
 public class SinhVienTestDriver {
     static Scanner sc = new Scanner(System.in);
-    static ArrayList<SinhVien> List = new ArrayList<SinhVien>();
+    static ArrayList<SinhVien> list = new ArrayList<SinhVien>();
     public static void main(String[] args) {
     
     int luaChon;
@@ -16,8 +17,10 @@ public class SinhVienTestDriver {
         System.out.println("| 1.Nhap thong tin sinh vien:                 |");                     
         System.out.println("| 2.Danh sach sinh vien:                      |");
         System.out.println("| 3.Sap xep sinh vien:                        |");
-        System.out.println("| 4.Tim va xoa sinh vien:                     |");
-        System.out.println("| 5.Diem trung binh cua sinh vien:            |");
+        System.out.println("| 4.Tim sinh vien:                            |");
+        System.out.println("| 5.Tim va sua sinh vien:                     |");
+        System.out.println("| 6.Tim va xoa sinh vien:                     |");
+        System.out.println("| 7.Diem trung binh cua sinh vien:            |");
         System.out.println("| Nhap lua chon:                              |");
         System.out.println("-----------------------------------------------");
         luaChon = sc.nextInt();
@@ -32,10 +35,14 @@ public class SinhVienTestDriver {
             case 3:          
                 sapXep();
                 break;
-            case 4:           
+            case 4:
+                tim();
+            case 5:
+                sua();
+            case 6:           
                 xoa();
                 break;
-            case 5:   
+            case 7:   
                 tinhTrungBinh();
                 break;
             default:System.out.println("Lua chon khong phu hop");
@@ -52,7 +59,7 @@ static void nhap(){
         SV.hoVaTen = sc.nextLine();
         System.out.println("Nhap diem sinh vien: ");
         SV.diemTrungBinh = sc.nextDouble();
-        List.add(SV);
+        list.add(SV);
         sc.nextLine();
         System.out.println("Ban co muon nhap tiep Y=1/N=0 ");
         if(sc.nextLine().equals("0"))
@@ -63,7 +70,7 @@ static void nhap(){
 }
 static void xuat(){
     System.out.println("Danh sach vua nhap:");
-    for (SinhVien x : List) {
+    for (SinhVien x : list) {
         System.out.println("Ten sinh vien:"+ x.hoVaTen);
         System.out.println("Diem sinh vien:"+ x.diemTrungBinh);
     }
@@ -75,28 +82,43 @@ static void sapXep(){
             return Double.compare(o1.diemTrungBinh, o2.diemTrungBinh);
         }
     };
-    Collections.sort(List, comp);
-    Collections.reverse(List);
+    Collections.sort(list, comp);
+    Collections.reverse(list);
     xuat();   
 }
-static void xoa(){
-    System.out.print("Nhap ten can xoa: ");
-    String name = sc.nextLine();
-    for (SinhVien a : List) {
-        if((a.hoVaTen).equals(name)){
-            List.remove(a);
-            System.out.println("Da xoa!");
-            break;
-        }
-    }    
+static void tim() {
+    for (SinhVien x : list) {
+        System.out.print("Nhap ten sinh vien can tim: ");
+        if (sc.nextLine().equals(x.hoVaTen))
+        System.out.println("Ho va ten sinh vien : " + x.hoVaTen);
+        System.out.println("Diem trung binh : " + x.diemTrungBinh);
+    }
 }
+static void sua() {
+    for (SinhVien x : list) {
+        System.out.print("Nhap ten can sua: ");
+        if (sc.nextLine().equals(x.hoVaTen)) {
+            System.out.print("Nhap diem moi: ");
+            x.diemTrungBinh = sc.nextDouble();
+            sc.nextLine();
+        }
+    }
+}
+static void xoa() {
+    for (SinhVien x : list) {
+        System.out.print("Nhap ten can xoa: ");
+        if (sc.nextLine().equals(x.hoVaTen))
+            list.remove(x);
+    }
+}    
+
 static void tinhTrungBinh(){
     double tong = 0;
     double trungBinh = 0;
-    for (SinhVien x : List) {
+    for (SinhVien x : list) {
         tong += x.diemTrungBinh;
     }
-    trungBinh = tong/List.size();
+    trungBinh = tong/list.size();
     System.out.println("Diem trung binh cua sinh vien la: "+trungBinh);
 }
 }
